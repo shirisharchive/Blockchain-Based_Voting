@@ -175,7 +175,7 @@ const abi =[
   }
 ];
 
-const contractAddress = "0x6a96869D33316708dA8F0703e3C4686a50815EAf"; 
+const contractAddress = "0x610B00522681Aaa8D2B8BD21117E1878FbF0Fbbc"; 
 const contract = new web3.eth.Contract(abi, contractAddress); 
 
 // Function to fetch and display the voter count
