@@ -1,5 +1,5 @@
 // Initialize Web3 and connect to Ganache
-const web3 = new Web3(window.ethereum);
+// const web3 = new Web3(window.ethereum);
 
 const abi = [
   {
