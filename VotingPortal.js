@@ -1,5 +1,5 @@
 // Initialize Web3 and connect to Ganache
-// const web3 = new Web3(window.ethereum);
+const web3 = new Web3(window.ethereum);
 
 const abi = [
   {
@@ -32,7 +32,7 @@ const abi = [
   },
 ];
 
-const contractAddress = "0x610B00522681Aaa8D2B8BD21117E1878FbF0Fbbc";
+const contractAddress = "0x1cB6721442170a21481Ca0BcB57eE673E12bF020";
 const contract = new web3.eth.Contract(abi, contractAddress);
 
 async function displayCandidates() {
@@ -102,17 +102,37 @@ async function displayCandidates() {
   }
 }
 
+// async function vote(candidateId) {
+//   try {
+//     // const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+
+//     // if (accounts.length === 0) {
+//     //   alert("No account found. Please connect to MetaMask.");
+//     //   return;
+//     // }
+
+//     const account = accounts[0];
+//     await contract.methods.vote(candidateId).send({ from: account });
+
+//     alert(`Vote cast successfully for candidate ID: ${candidateId}`);
+//     await displayCandidates();
+//   } catch (error) {
+//     console.error("Error casting vote:", error);
+//     alert("Failed to cast vote. User may have already voted or there was an issue.");
+//   }
+// }
+
+// document.addEventListener("DOMContentLoaded", async () => {
+//   await displayCandidates();
+// });
+const predefinedAccount = "0x6e15Bc6C11CADF140FB3B6452D5A8a7979A28b0e";// Lalit yesma chai tmro ganache ko jun account ma ethers chha ni tesko address rakha hai.
 async function vote(candidateId) {
   try {
-    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+    // Request access to MetaMask if not already connected
+    await window.ethereum.request({ method: "eth_requestAccounts" });
 
-    if (accounts.length === 0) {
-      alert("No account found. Please connect to MetaMask.");
-      return;
-    }
-
-    const account = accounts[0];
-    await contract.methods.vote(candidateId).send({ from: account });
+    // Use the predefined account to cast the vote
+    await contract.methods.vote(candidateId).send({ from: predefinedAccount });
 
     alert(`Vote cast successfully for candidate ID: ${candidateId}`);
     await displayCandidates();
@@ -121,7 +141,6 @@ async function vote(candidateId) {
     alert("Failed to cast vote. User may have already voted or there was an issue.");
   }
 }
-
 document.addEventListener("DOMContentLoaded", async () => {
-  await displayCandidates();
-});
+    await displayCandidates();
+  });
