@@ -32,7 +32,7 @@ const abi = [
   },
 ];
 
-const contractAddress = "0x1cB6721442170a21481Ca0BcB57eE673E12bF020";
+const contractAddress = "0xE563e4bA2fE0FB9C91b1FEea39F32E1C01badFcd";
 const contract = new web3.eth.Contract(abi, contractAddress);
 
 async function displayCandidates() {
@@ -125,7 +125,7 @@ async function displayCandidates() {
 // document.addEventListener("DOMContentLoaded", async () => {
 //   await displayCandidates();
 // });
-const predefinedAccount = "0x6e15Bc6C11CADF140FB3B6452D5A8a7979A28b0e";// Lalit yesma chai tmro ganache ko jun account ma ethers chha ni tesko address rakha hai.
+const predefinedAccount = "0x4a437c1E83e1bd7CD9CbBFf72f26b9b823418846";// Lalit yesma chai tmro ganache ko jun account ma ethers chha ni tesko address rakha hai.
 async function vote(candidateId) {
   try {
     // Request access to MetaMask if not already connected

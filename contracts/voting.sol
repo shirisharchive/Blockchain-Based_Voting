@@ -9,22 +9,22 @@ contract Voting {
         uint256 voteCount;
     }
 
-    struct VoterInfo {
-        mapping(string => bool) hasVotedForPosition;
-        bool hasVoted;
-    }
-
     mapping(uint256 => CandidateInfo) public candidates;
-    mapping(address => VoterInfo) private voters;
-
+    mapping(string => bool) private positionVoted; // Renamed mapping
     uint256 public candidateCount;
-    uint256 public voterCount;
 
-    function addCandidate(string memory _name, string memory _party, string memory _position) public returns (bool success) {
+    
+    function addCandidate(
+        string memory _name,
+        string memory _party,
+        string memory _position
+    ) public returns (bool success) {
         for (uint256 i = 0; i < candidateCount; i++) {
             require(
-                !(keccak256(abi.encodePacked(candidates[i].position)) == keccak256(abi.encodePacked(_position)) &&
-                  keccak256(abi.encodePacked(candidates[i].party)) == keccak256(abi.encodePacked(_party))),
+                !(keccak256(abi.encodePacked(candidates[i].position)) ==
+                    keccak256(abi.encodePacked(_position)) &&
+                  keccak256(abi.encodePacked(candidates[i].party)) ==
+                    keccak256(abi.encodePacked(_party))),
                 "A candidate from the same party is already running for this position"
             );
         }
@@ -40,39 +40,49 @@ contract Voting {
         return true;
     }
 
+   
     function vote(uint256 candidateId) public returns (bool success) {
         require(candidateId < candidateCount, "Candidate does not exist");
 
         CandidateInfo storage candidate = candidates[candidateId];
-
         require(
-            !voters[msg.sender].hasVotedForPosition[candidate.position],
-            "Voter has already voted for this position"
+            !positionVoted[candidate.position],
+            "A vote has already been cast for this position"
         );
 
-        voters[msg.sender].hasVotedForPosition[candidate.position] = true;
+        positionVoted[candidate.position] = true; // Mark this position as voted
         candidate.voteCount++;
-
-        if (!voters[msg.sender].hasVoted) {
-            voters[msg.sender].hasVoted = true;
-            voterCount++;
-        }
-
         return true;
     }
 
-    function getCandidate(uint256 candidateId) public view returns (string memory name, string memory party, string memory position, uint256 voteCount) {
+    
+    function getCandidate(uint256 candidateId)
+        public
+        view
+        returns (
+            string memory name,
+            string memory party,
+            string memory position,
+            uint256 voteCount
+        )
+    {
         require(candidateId < candidateCount, "Candidate does not exist");
 
         CandidateInfo memory candidate = candidates[candidateId];
-        return (candidate.name, candidate.party, candidate.position, candidate.voteCount);
+        return (
+            candidate.name,
+            candidate.party,
+            candidate.position,
+            candidate.voteCount
+        );
     }
 
-    function hasVotedForPosition(address voter, string memory position) public view returns (bool result) {
-        return voters[voter].hasVotedForPosition[position];
-    }
-
-    function hasVoted(address voter) public view returns (bool result) {
-        return voters[voter].hasVoted;
+    
+    function hasVotedForPosition(string memory position)
+        public
+        view
+        returns (bool result)
+    {
+        return positionVoted[position];
     }
 }

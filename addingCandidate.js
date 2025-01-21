@@ -172,7 +172,7 @@ const abi = [
       "constant": true
     }
   ];
-const contractAddress = "0x1cB6721442170a21481Ca0BcB57eE673E12bF020";
+const contractAddress = "0xE563e4bA2fE0FB9C91b1FEea39F32E1C01badFcd";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("candidateForm");
